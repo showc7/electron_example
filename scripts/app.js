@@ -9,7 +9,7 @@
         this.errorCb = _.bind(this._failCb, this);
     }
     APP.prototype.init = function() {
-        this.config.load().done(_.bind(this.renderRSSList, this));
+        this.config.load(Constants.ConfigurationFile).done(_.bind(this.renderRSSList, this));
     };
 
     APP.prototype.renderRSSList = function () {
