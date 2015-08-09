@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body id="loader">
+
+  </body>
+  <script>
+
+    window.$ = require('jQuery');
+    /*$.ajax({
+      url:'http://www.google.ru',
+      success:function(html) {
+        document.write(html);
+      }
+    });
+    */
+    var ipc = require('ipc');
+    console.log(ipc.sendSync('synchronous-message', 'http://www.google.ru'));
+
+    ipc.on('asynchronous-reply', function(arg) {
+      console.log(arg);
+    });
+
+    ipc.send('asynchronous-message', 'http://www.google.ru');
+  </script>
+</html>
