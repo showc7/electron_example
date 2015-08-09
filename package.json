@@ -1,5 +1,8 @@
 {
   "name"    : "test",
   "version" : "0.1.0",
-  "main"    : "main.js"
+  "main"    : "main.js",
+  "dependencies" : {
+    "jQuery":"~1.7.4"
+  }
 }
