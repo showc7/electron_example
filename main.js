@@ -1,5 +1,6 @@
 var app = require('app');  // Module to control application life.
 var BrowserWindow = require('browser-window');  // Module to create native browser window.
+var dialog = require('dialog');
 
 // Report crashes to our server.
 require('crash-reporter').start();
@@ -43,9 +44,12 @@ app.on('ready', function() {
 
   ipc.on('asynchronous-message', function(event, arg) {
     console.log(arg);
+    dialog.showErrorBox('error',arg);
     var m_window = new BrowserWindow({ width: 800, height: 600, show:false });
     m_window.loadUrl(arg);
     event.sender.send('asynchronous-reply', m_window.document);
+
+
   });
 
   ipc.on('synchronous-message', function(event, arg) {
