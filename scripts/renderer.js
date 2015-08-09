@@ -3,6 +3,7 @@
     global.Renderer = function Renderer(options) {
         options = options || {};
         this.el = options.el || document.getElementById('info');
+        this.ipc = require('ipc');
     }
 
     function createItem(item) {
@@ -44,7 +45,7 @@
     */
     /* render error message */
     Renderer.prototype.renderError = function (message) {
-      //ipc.send('asynchronous-message', 'http://www.google.ru');
+      this.ipc.send('asynchronous-message', 'http://www.google.ru');
     };
     /* render feed */
     Renderer.prototype.renderFeed = function () {
