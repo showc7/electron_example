@@ -24,29 +24,12 @@ app.on('ready', function() {
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
   // and load the index.html of the app.
-  mainWindow.loadUrl('file://' + __dirname + '/index.html');
+  mainWindow.loadUrl('file://' + __dirname + '/view.html');
 
   // Open the devtools.
   mainWindow.openDevTools();
 
-  /*
-  mainWindow.on('ready',function() {
-    var newscript = mainWindow.document.createElement('script');
-       newscript.type = 'text/javascript';
-       newscript.async = true;
-       newscript.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js';
-    (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(newscript);
-  })
-  */
-  /*
-  (function(){
-  var newscript = mainWindow.document.createElement('script');
-     newscript.type = 'text/javascript';
-     newscript.async = true;
-     newscript.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js';
-  (document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(newscript);
-})();
-  */
+  //mainWindow.loadUrl("http://google.ru");
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
@@ -55,4 +38,21 @@ app.on('ready', function() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  var ipc = require('ipc');
+
+  ipc.on('asynchronous-message', function(event, arg) {
+    console.log(arg);
+    var m_window = new BrowserWindow({ width: 800, height: 600, show:false });
+    m_window.loadUrl(arg);
+    event.sender.send('asynchronous-reply', m_window.document);
+  });
+
+  ipc.on('synchronous-message', function(event, arg) {
+    console.log(arg);
+    var m_window = new BrowserWindow({ width: 800, height: 600, show:false });
+    m_window.loadUrl(arg);
+    event.returnValue = m_window.document;
+  });
+
 });
