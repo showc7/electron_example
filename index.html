@@ -1,90 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="stylesheets/styles.css">
+    <head>
+        <link rel="stylesheet" href="stylesheets/styles.css">
 
-    <script type="text/javascript" src="./scripts/RSSFunctions.js"></script>
+        <script type="text/javascript" src="./scripts/config.js"></script>
+        <script type="text/javascript" src="./scripts/rss.js"></script>
+        <script type="text/javascript" src="./scripts/renderer.js"></script>
+        <script type="text/javascript" src="./scripts/dispatcher.js"></script>
+        <script type="text/javascript" src="./scripts/app.js"></script>
+        <script type="text/javascript" src="./scripts/index.js"></script>
 
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>@#$&&</h1>
-        <p></p>
-      </header>
-      <section id="info">
-
-      </section>
-  </body>
-  <script>
-    window.$ = require('jQuery');
-
-
-    var FEED_URL = 'http://habrahabr.ru/rss/interesting/';
-
-    var rss = new RSS();
-
-    rss.GetList(FEED_URL, function(data){
-        var info = document.getElementById('info');
-        $.each(data, function(i,e){
-          info.innerHTML = info.innerHTML +
-            "<div class=\"info-div\"><br><div>" + e.title + "</div>" +
-            "<div>" + e.contentSnippet + "</div>" +
-
-            "<button class=\"btn-custom\">" + e.link + "</button>" +
-            "</div>";
-        })
-
-        $('.btn-custom').click(function(){
-
-          console.log('fired');
-          console.log(this.innerHTML);
-          //var div = $(this).parent('.info-div');
-          var div = document.getElementById('info');
-          //$(div).load(this.innerHTML);
-          //div.loadUrl('http://google.ru');
-          console.log($(window).parent());
-        });
-      });
-//"<div><a href=\"" + e.link + "\" class=\"linker\">more</a></div>" +
-
-/*
-      $(document).ready(function() {
-        $('.btn-custom').click(function(){
-          console.log('fired');
-        });
-      });
-*/
-      /*
-    rss.GetList(FEED_URL, function(data){
-      var info = document.getElementById('info');
-      $.each(data, function(i,e){
-        info.innerHTML = info.innerHTML +
-          "<div><br><div>" + e.title + "</div>" +
-          "<div>" + e.contentSnippet + "</div>" +
-          "<div><a href=\"" + e.link + "\">more</a></div>" +
-          "</div>";
-      });
-    });
-*/
-    // $.ajax({
-    //   url      : 'http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&callback=?&q=' + encodeURIComponent(FEED_URL),
-    //   dataType : 'json',
-    //   success  : function (data) {
-    //     if (data.responseData.feed && data.responseData.feed.entries) {
-    //       $.each(data.responseData.feed.entries, function (i, e) {
-    //         //console.log(e);
-    //
-    //         var info = document.getElementById('info');
-    //         info.innerHTML = info.innerHTML +
-    //           "<div><br><div>" + e.title + "</div>" +
-    //           "<div>" + e.contentSnippet + "</div>" +
-    //           "<div><a href=\"" + e.link + "\">more</a></div>" +
-    //           "</div>";
-    //       });
-    //     }
-    //   }
-    // });
-  </script>
+        <title>Hello World!</title>
+    </head>
+    <body>
+        <div class="wrapper">
+            <header>
+                <h1>@#$&&</h1>
+                <p></p>
+            </header>
+          <section id="info">
+          </section>
+        </div>
+    </body>
 </html>

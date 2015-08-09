@@ -1,8 +1,9 @@
 {
-  "name"    : "test",
-  "version" : "0.1.0",
-  "main"    : "main.js",
-  "dependencies" : {
-    "jQuery":"~1.7.4"
+  "name": "test",
+  "version": "0.1.0",
+  "main": "main.js",
+  "devDependencies": {
+    "jquery-deferred": "^0.3.0",
+    "lodash": "^3.10.1"
   }
 }
