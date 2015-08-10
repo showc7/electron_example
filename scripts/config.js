@@ -13,8 +13,8 @@ var fs = require('fs');
         var data = JSON.stringify(container);
         fs.writeFile(fileName, data, function(err) {
           if(err) {
-            // call error message
-            console.log('error saving config' + err);
+            console.log('error saving configuration file' + err);
+            app.showErrorMessage('can\'t save configuration file' + err);
             return;
           }
           // OK
@@ -26,6 +26,8 @@ var fs = require('fs');
         console.log(fileName);
         fs.readFile(fileName, function read(err, data){
           if(err) {
+            console.log('error reading configuration file' + err);
+            app.showErrorMessage('can\'t read configuration file' + err);
             container = {};
             return dfd.reject();
           }
@@ -34,8 +36,6 @@ var fs = require('fs');
           console.log(container);
           return dfd.resolve();
         });
-        //container = JSON.parse(fs.readFileSync(fileName));
-        //container = { 'habrahabr' : 'http://habrahabr.ru/rss/interesting/' };
         return dfd;
     };
 
