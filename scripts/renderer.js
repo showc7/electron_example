@@ -46,7 +46,7 @@
     Renderer.prototype.renderError = function (message) {
       console.log('error : ' + message);
       var params = {action : 'showErrorBox', message : 'internal error'};
-      this.ipc.send('asynchronous-message', params);
+      app.ipc.send('asynchronous-message', params);
     };
     /* render feed */
     Renderer.prototype.renderFeed = function (url) {
@@ -70,5 +70,9 @@
 
     Renderer.prototype.getWorkingElement = function () {
       return document.getElementById(this.options.elementId);
+    };
+
+    Renderer.prototype.renderSettings = function () {
+      // body...
     };
 })(window);
