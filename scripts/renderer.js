@@ -11,7 +11,6 @@
 
     function createListItem(item) {
       var ListItemView = {title: item.title, contentSnippet: item.contentSnippet, link: item.link};
-      var Mustache = require('mustache');
       var output = self.mustache.render('<div class="info-div"><br>\
                                       <div>{{title}}</div>\
                                       <div>{{contentSnippet}}</div>\
@@ -47,19 +46,10 @@
 
       var element = document.getElementById(this.options.elementId);
       element.innerHTML = '';
-      /* create button */
-      var button = document.createElement('button');
-      button.setAttribute('id','back');
-      button.setAttribute('class','btn-custom');
-      button.setAttribute('data-type','back');
-      button.innerHTML = 'back';
-      element.appendChild(button);
-      /* create webview */
-      var webview = document.createElement('webview');
-      webview.setAttribute('id','webview');
-      webview.setAttribute('class','title');
-      webview.setAttribute('src',url);
-      element.appendChild(webview);
+      var ListFeedView = { url: url };
+      var output = self.mustache.render('<button id="back" class="btn-custom" data-type="back">back</button>\
+                                        <webview id="webview" class="title" src="{{url}}"></webview>',ListFeedView);
+      element.innerHTML += output;
     };
 
     Renderer.prototype.getWorkingElement = function () {
