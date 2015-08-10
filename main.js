@@ -42,21 +42,27 @@ app.on('ready', function() {
 
   var ipc = require('ipc');
 
-  ipc.on('asynchronous-message', function(event, arg) {
-    console.log(arg);
-    dialog.showErrorBox('error',arg);
-    var m_window = new BrowserWindow({ width: 800, height: 600, show:false });
-    m_window.loadUrl(arg);
-    event.sender.send('asynchronous-reply', m_window.document);
+  ipc.on('asynchronous-message', function(event, options) {
+    console.log(event + ' ' + options);
 
+    if( !options || !options.action ) return;
+
+    switch(options.action) {
+      case showErrorBox: showErrorBox(options); break;
+      default: return;
+    }
 
   });
 
   ipc.on('synchronous-message', function(event, arg) {
     console.log(arg);
-    var m_window = new BrowserWindow({ width: 800, height: 600, show:false });
-    m_window.loadUrl(arg);
-    event.returnValue = m_window.document;
+    /*var m_window = new BrowserWindow({ width: 800, height: 600, show:false });
+    m_window.loadUrl(arg);*/
+    event.returnValue = 'ok';
   });
 
 });
+
+var showErrorBox = function(options) {
+  dialog.showErrorBox('error',options.message);
+}
