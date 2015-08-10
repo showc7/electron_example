@@ -6,7 +6,7 @@
         this.RSS = new RSS();
         this.ipc = require('ipc');
 
-        this.currentPost = 'adme';
+        this.currentFeed = 'habrahabr';
         this.errorCb = _.bind(this._failCb, this);
     }
     APP.prototype.init = function() {
@@ -15,7 +15,7 @@
 
     APP.prototype.renderRSSList = function () {
         var self = this;
-        this.RSS.getList(this.config.get(this.currentPost))
+        this.RSS.getList(this.config.get(this.currentFeed))
         .done(function (result) {
             if (!_.isArray(result)) { self.renderer.renderError(result); }
             self.renderer.renderList(result);
@@ -47,11 +47,11 @@
       this.renderRSSList();
     };
 
-    APP.prototype.setCurrentPost = function (postName) {
+    APP.prototype.setcurrentFeed = function (postName) {
       if(!postName) return;
       if(!this.config.get(postName)) return;
 
-      this.currentPost = postName;
+      this.currentFeed = postName;
     };
 
     APP.prototype.showErrorMessage = function (message) {
@@ -63,6 +63,10 @@
 
     APP.prototype.settings = function () {
       this.renderer.renderSettings();
+    };
+
+    APP.prototype.getFeedTitle = function () {
+      return this.currentFeed;
     };
 
     global.APP = APP;
