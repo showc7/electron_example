@@ -6,27 +6,16 @@
     }
 
     function createListItem(item) {
-      /* create div main*/
-      var element = document.createElement('div');
-      element.setAttribute('class','info-div');
-      element.appendChild(document.createElement('br'));
-      /* append title */
-      var title = document.createElement('div');
-      title.innerHTML = item.title;
-      element.appendChild(title);
-      /* append content */
-      var content = document.createElement('div');
-      content.innerHTML = item.contentSnippet;
-      element.appendChild(content);
-      /* append button */
-      var button = document.createElement('button');
-      button.setAttribute('class','btn-custom');
-      button.innerHTML = 'read more';
-      button.setAttribute('data-url',item.link);
-      button.setAttribute('data-type','feed-url');
-      element.appendChild(button);
+      var ListItemView = {title: item.title, contentSnippet: item.contentSnippet, link: item.link};
+      var Mustache = require('mustache');
+      var output = Mustache.render('<div class="info-div">
+                                      <br>
+                                      <div>{{title}}</div>
+                                      <div>{{contentSnippet}}</div>
+                                      <button class="btn-custom" data-url="{{link}}" data-type="feed-url">read more</button>
+                                    </div>',ListItemView);
 
-      return element;
+      return output;
     }
 
     /* render configuration page */
@@ -38,7 +27,8 @@
       var element = document.getElementById(this.options.elementId);
       element.innerHTML = '';
       _.forEach(list, function (item) {
-        element.appendChild(createListItem(item));
+        //element.appendChild(createListItem(item));
+        element.innerHTML += createListItem(item);
       });
     };
 
