@@ -4,8 +4,9 @@
         this.dispatcher = new Dispatcher();
         this.renderer = new Renderer();
         this.RSS = new RSS();
+        this.ipc = require('ipc');
 
-        this.currentPost = 'habrahabr';
+        this.currentPost = 'adme';
         this.errorCb = _.bind(this._failCb, this);
     }
     APP.prototype.init = function() {
@@ -44,6 +45,24 @@
     APP.prototype.back = function () {
       console.log('back');
       this.renderRSSList();
+    };
+
+    APP.prototype.setCurrentPost = function (postName) {
+      if(!postName) return;
+      if(!this.config.get(postName)) return;
+
+      this.currentPost = postName;
+    };
+
+    APP.prototype.showErrorMessage = function (message) {
+      var params = {};
+      params.action = 'showErrorBox';
+      params.message = message;
+      this.ipc.send('asynchronous-message', params);
+    };
+
+    APP.prototype.settings = function () {
+      this.renderer.renderSettings();
     };
 
     global.APP = APP;
