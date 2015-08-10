@@ -5,13 +5,14 @@
     global.Renderer = function Renderer(options) {
         this.options = options || { elementId : 'info', titleId : 'FeedTitle' };
         this.ipc = require('ipc');
+        this.mustache = require('mustache');
         self = this;
     }
 
     function createListItem(item) {
       var ListItemView = {title: item.title, contentSnippet: item.contentSnippet, link: item.link};
       var Mustache = require('mustache');
-      var output = Mustache.render('<div class="info-div"><br>\
+      var output = self.mustache.render('<div class="info-div"><br>\
                                       <div>{{title}}</div>\
                                       <div>{{contentSnippet}}</div>\
                                       <button class="btn-custom" data-url="{{link}}" data-type="feed-url">read more</button>\
@@ -43,6 +44,7 @@
     /* render feed */
     Renderer.prototype.renderFeed = function (url) {
       console.log('render feed');
+
       var element = document.getElementById(this.options.elementId);
       element.innerHTML = '';
       /* create button */
