@@ -48,7 +48,8 @@ app.on('ready', function() {
     if( !options || !options.action ) return;
 
     switch(options.action) {
-      case showErrorBox: showErrorBox(options); break;
+      case 'showErrorBox': showErrorBox(options); break;
+      case 'notification': showNotification(options); break;
       default: return;
     }
 
@@ -65,4 +66,9 @@ app.on('ready', function() {
 
 var showErrorBox = function(options) {
   dialog.showErrorBox('error',options.message);
+}
+
+var showNotification = function(options) {
+  //var n = new Notification(theTitle, options);
+  //spawnNotification('Test Notification','', 'Hello World!');
 }
