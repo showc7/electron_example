@@ -4,6 +4,7 @@
   "main": "main.js",
   "devDependencies": {
     "jquery-deferred": "^0.3.0",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "mustache": "~2.1.3"
   }
 }
