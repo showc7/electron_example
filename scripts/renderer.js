@@ -1,27 +1,28 @@
 (function (global) {
     // work using document
+    var self;
+
     global.Renderer = function Renderer(options) {
-        this.options = options || { elementId : 'info' };
+        this.options = options || { elementId : 'info', titleId : 'FeedTitle' };
         this.ipc = require('ipc');
+        self = this;
     }
 
     function createListItem(item) {
       var ListItemView = {title: item.title, contentSnippet: item.contentSnippet, link: item.link};
       var Mustache = require('mustache');
-      var output = Mustache.render('<div class="info-div">
-                                      <br>
-                                      <div>{{title}}</div>
-                                      <div>{{contentSnippet}}</div>
-                                      <button class="btn-custom" data-url="{{link}}" data-type="feed-url">read more</button>
+      var output = Mustache.render('<div class="info-div"><br>\
+                                      <div>{{title}}</div>\
+                                      <div>{{contentSnippet}}</div>\
+                                      <button class="btn-custom" data-url="{{link}}" data-type="feed-url">read more</button>\
                                     </div>',ListItemView);
-
       return output;
     }
 
-    /* render configuration page */
-    Renderer.prototype.renderConfig = function () {
-      // body...
+    Renderer.prototype.setTitle = function (text) {
+      document.getElementById(this.options.titleId).innerHTML = text;
     };
+
     /* render list of feeds */
     Renderer.prototype.renderList = function (list) {
       var element = document.getElementById(this.options.elementId);
@@ -30,6 +31,7 @@
         //element.appendChild(createListItem(item));
         element.innerHTML += createListItem(item);
       });
+      this.setTitle(app.getFeedTitle());
     };
 
     /* render error message */
@@ -61,8 +63,8 @@
     Renderer.prototype.getWorkingElement = function () {
       return document.getElementById(this.options.elementId);
     };
-
+    /* render settings page */
     Renderer.prototype.renderSettings = function () {
-      // body...
+      self.setTitle('Settings');
     };
 })(window);
