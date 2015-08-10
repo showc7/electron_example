@@ -1,54 +1,74 @@
 (function (global) {
     // work using document
     global.Renderer = function Renderer(options) {
-        options = options || {};
-        this.el = options.el || document.getElementById('info');
+        this.options = options || { elementId : 'info' };
         this.ipc = require('ipc');
     }
 
-    function createItem(item) {
-        return '<div class="info-div"><br><div>' + item.title + '</div>' +
-            '<div>' + item.contentSnippet + '</div>' +
-            '<button class="btn-custom">' + item.link + '</button>' +
-            '</div>';
+    function createListItem(item) {
+      /* create div main*/
+      var element = document.createElement('div');
+      element.setAttribute('class','info-div');
+      element.appendChild(document.createElement('br'));
+      /* append title */
+      var title = document.createElement('div');
+      title.innerHTML = item.title;
+      element.appendChild(title);
+      /* append content */
+      var content = document.createElement('div');
+      content.innerHTML = item.contentSnippet;
+      element.appendChild(content);
+      /* append button */
+      var button = document.createElement('button');
+      button.setAttribute('class','btn-custom');
+      button.innerHTML = 'read more';
+      button.setAttribute('data-url',item.link);
+      button.setAttribute('data-type','feed-url');
+      element.appendChild(button);
+
+      return element;
     }
-
-    Renderer.prototype.renderList = function (list) {
-        var self = this;
-        _.forEach(list, function (item) {
-            self.el.innerHTML += createItem(item);
-        });
-    };
-    /*
-    Renderer.prototype.renderError = function (error) {
-        this.el.innerHTML = JSON.stringify(error);
-    };
-    */
-    Renderer.prototype.renderFeed = function (feedUrl) {
-        this.el.innerHTML = '<button id="back">Back</button>' +
-                            '<webview id="webview" class="title" src="http://habrahabr.ru/post/263791/" autosize="on"></webview>';
-    };
-
-    /* feature */
 
     /* render configuration page */
     Renderer.prototype.renderConfig = function () {
       // body...
     };
     /* render list of feeds */
-    /*Renderer.prototype.renderList = function (list) {
-      var element = document.getElementById('info');
+    Renderer.prototype.renderList = function (list) {
+      var element = document.getElementById(this.options.elementId);
+      element.innerHTML = '';
       _.forEach(list, function (item) {
-        element.innerHTML += createItem(item);
+        element.appendChild(createListItem(item));
       });
     };
-    */
+
     /* render error message */
     Renderer.prototype.renderError = function (message) {
-      this.ipc.send('asynchronous-message', 'http://www.google.ru');
+      console.log('error : ' + message);
+      var params = {action : 'showErrorBox', message : 'internal error'};
+      this.ipc.send('asynchronous-message', params);
     };
     /* render feed */
-    Renderer.prototype.renderFeed = function () {
-      // body...
+    Renderer.prototype.renderFeed = function (url) {
+      console.log('render feed');
+      var element = document.getElementById(this.options.elementId);
+      element.innerHTML = '';
+      /* create button */
+      var button = document.createElement('button');
+      button.setAttribute('id','back');
+      button.setAttribute('class','btn-custom');
+      button.setAttribute('data-type','back');
+      button.innerHTML = 'back';
+      element.appendChild(button);
+      /* create webview */
+      var webview = document.createElement('webview');
+      webview.setAttribute('id','webview');
+      webview.setAttribute('class','title');
+      webview.setAttribute('src',url);
+      element.appendChild(webview);
+    };
+
+    Renderer.prototype.getWorkingElement = function () {
+      return document.getElementById(this.options.elementId);
     };
 })(window);
